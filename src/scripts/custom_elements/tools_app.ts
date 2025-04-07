@@ -103,12 +103,10 @@ export class ToolsApp extends LitElement {
                 this._selectElement.value = lastFunction;
             }
         }
-
-        super.connectedCallback();
     }
 
     private _selectPointerDown = (event: PointerEvent) => {
-        if (event.pointerType === 'mouse' || event.pointerType === 'touch') {
+        if (event.pointerType === "mouse" || event.pointerType === "touch") {
             this._focusAfterSelect = true;
         }
     }
