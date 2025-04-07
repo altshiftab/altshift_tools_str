@@ -17,7 +17,7 @@ async function hashHex(message: string, algorithm: AlgorithmIdentifier) {
 @customElement("tools-app")
 export class ToolsApp extends LitElement {
     private _lastFunction = localStorage.getItem(lastFunctionIdentifier);
-    private _selectedElementByMouse: boolean = false;
+    private _focusAfterSelect: boolean = false;
 
     @query("select")
     private _selectElement!: HTMLSelectElement;
@@ -107,12 +107,10 @@ export class ToolsApp extends LitElement {
         super.connectedCallback();
     }
 
-    private _selectMouseEnter = () => {
-        this._selectedElementByMouse = true;
-    }
-
-    private _selectMouseLeave = () => {
-        this._selectedElementByMouse = false;
+    private _selectPointerDown = (event: PointerEvent) => {
+        if (event.pointerType === 'mouse' || event.pointerType === 'touch') {
+            this._focusAfterSelect = true;
+        }
     }
 
     private _inputChange = async () => {
@@ -188,9 +186,9 @@ export class ToolsApp extends LitElement {
     }
 
     private _selectChange = () => {
-        if (this._selectedElementByMouse) {
+        if (this._focusAfterSelect) {
             this._inputContainerTextarea.focus();
-            this._selectedElementByMouse = false;
+            this._focusAfterSelect = false;
         }
 
         localStorage.setItem(lastFunctionIdentifier, this._selectElement.value);
@@ -200,7 +198,7 @@ export class ToolsApp extends LitElement {
         return html`
             <div class="select-container">
                 <label>Function</label>
-                <select @mouseenter=${this._selectMouseEnter} @mouseleave=${this._selectMouseLeave} @change=${this._selectChange}>
+                <select @pointerdown=${this._selectPointerDown} @change=${this._selectChange}>
                     <optgroup label="Decode">
                         <option value="decode-base64">Decode Base64</option>
                     </optgroup>

@@ -1,7 +1,7 @@
 {
   "name": "altshift_tools_str",
   "type": "module",
-  "version": "0.1",
+  "version": "0.2",
   "scripts": {
     "build": "webpack --config webpack.config.cjs --stats-children",
     "release": "npm run build && (cd dist && zip -r ../dist.zip .) && gh release create v\"$(jq -r '.version' package.json)\" dist.zip --title '' --notes '' && rm -f dist.zip"
