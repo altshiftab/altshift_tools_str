@@ -184,12 +184,13 @@ export class ToolsApp extends LitElement {
     }
 
     private _selectChange = () => {
+        localStorage.setItem(lastFunctionIdentifier, this._selectElement.value);
+        this._inputChange();
+
         if (this._focusAfterSelect) {
             this._inputContainerTextarea.focus();
             this._focusAfterSelect = false;
         }
-
-        localStorage.setItem(lastFunctionIdentifier, this._selectElement.value);
     }
 
     render() {
